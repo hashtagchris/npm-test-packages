@@ -1,6 +1,6 @@
 {
   "name": "@hashtagchris/its-all-relative",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "testing relative links in the README",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hashtagchris/npm-test-packages.git"
+    "url": "https://github.com/hashtagchris/npm-test-packages.git",
+    "directory": "workspaces/its-all-relative"
   },
   "author": "hashtagchris@github.com",
   "license": "MIT"
