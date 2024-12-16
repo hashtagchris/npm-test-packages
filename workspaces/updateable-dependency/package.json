@@ -11,6 +11,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "css-loader": "2.1.1",
     "postcss": "8.4.39"
+  },
+  "overrides": {
+    "icss-utils": {
+      "postcss": "8.4.39"
+    }
   }
 }
