@@ -1,0 +1,15 @@
+{
+  "name": "@hashtagchris/new-for-april-a",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hashtagchris/new-for-april-b": "^1.0.0"
+  }
+}

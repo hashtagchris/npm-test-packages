@@ -1,0 +1,8 @@
+{
+  "name": "@hashtagchris/npm-test-packages",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "workspaces/*"
+  ]
+}
