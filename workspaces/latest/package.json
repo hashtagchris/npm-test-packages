@@ -1,6 +1,6 @@
 {
   "name": "@hashtagchris/latest",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@hashtagchris/latest-dep": "^1.0.0"
+    "@hashtagchris/latest-dep": "^1.0.0",
+    "express": "^5.1.0",
+    "restify10-no-semver-range": "npm:restify@10.0.0",
+    "restify11": "npm:restify@^11.1.0",
+    "restify4": "npm:restify@^4.3.4"
+  },
+  "devDependencies": {
+    "@hashtagchris/latest": "^1.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "prettier": "^3.5.3",
+    "sinon": "^20.0.0"
   }
 }
