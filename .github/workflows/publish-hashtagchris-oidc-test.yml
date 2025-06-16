@@ -38,9 +38,9 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       # Temporary, until actions/setup-node sets up an npm cli with OIDC support
-      - name: Upgrade to latest version of the npm cli with OIDC support
+      - name: Update to the latest version of the npm cli with OIDC support
         run: |
-          npm install -g npm#oidc
+          npm install npm/cli#oidc -g
 
       - name: Increment version
         if: ${{ github.event.inputs.version_increment != 'none' }}
