@@ -1,0 +1,61 @@
+name: Publish hashtagchris-oidc-test package
+on:
+  workflow_dispatch:
+    inputs:
+      version_increment:
+        description: 'Version increment type (major, minor, patch)'
+        required: false
+        default: 'none'
+        type: choice
+        options:
+          - none
+          - patch
+          - minor
+          - major
+  pull_request:
+    paths:
+      - workspaces/hashtagchris-oidc-test
+  push:
+    paths:
+      - workspaces/hashtagchris-oidc-test
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Adds NODE_AUTH_TOKEN env var reference to .npmrc file
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org
+
+      # Temporary, until actions/setup-node sets up an npm cli with OIDC support
+      - name: Upgrade to latest version of the npm cli with OIDC support
+        run: |
+          npm install -g npm#oidc
+
+      - name: Increment version
+        if: ${{ github.event.inputs.version_increment != 'none' }}
+        working-directory: workspaces/hashtagchris-oidc-test
+        id: increment_version
+        run: |
+          npm version ${{ github.event.inputs.version_increment }}
+
+      - name: Install dependencies
+        working-directory: workspaces/hashtagchris-oidc-test
+        run: |
+          npm ci
+
+      - name: Publish
+        working-directory: workspaces/hashtagchris-oidc-test
+        run: |
+          # npm publish
+          npm publish --loglevel=silly
