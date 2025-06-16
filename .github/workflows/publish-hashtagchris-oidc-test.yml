@@ -14,9 +14,11 @@ on:
           - major
   pull_request:
     paths:
+      - .github/workflows/publish-hashtagchris-oidc-test.yml
       - workspaces/hashtagchris-oidc-test
   push:
     paths:
+      - .github/workflows/publish-hashtagchris-oidc-test.yml
       - workspaces/hashtagchris-oidc-test
     branches:
       - main
