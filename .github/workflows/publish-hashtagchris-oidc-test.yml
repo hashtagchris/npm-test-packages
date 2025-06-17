@@ -61,11 +61,10 @@ jobs:
           sudo npm install -g npm/cli#oidc
 
       - name: Do a non-global install of the npm cli with OIDC support
-        working-directory: workspaces/hashtagchris-oidc-test
         run: |
           npm install npm/cli#oidc
-          ls -la node_modules
-          ls -la node_modules/npm
+          ls -la ./node_modules
+          ls -la ./node_modules/npm
 
           ./node_modules/npm/bin/npm-cli.js --version
 
