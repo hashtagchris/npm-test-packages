@@ -62,29 +62,31 @@ jobs:
 
       - name: Do a non-global install of the npm cli with OIDC support
         run: |
+          mkdir -p /tmp/npm-cli
+          cd /tmp/npm-cli
           npm install npm/cli#oidc
-          ls -la ./node_modules
-          ls -la ./node_modules/npm
+          ls -la /tmp/npm-cli/node_modules
+          ls -la /tmp/npm-cli/node_modules/npm
 
-          ./node_modules/npm/bin/npm-cli.js --version
+          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js --version
 
       - name: Increment version
         if: ${{ github.event.inputs.version_increment != 'none' }}
         working-directory: workspaces/hashtagchris-oidc-test
         id: increment_version
         run: |
-          ../../node_modules/npm/bin/npm-cli.js version ${{ github.event.inputs.version_increment }}
+          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js version ${{ github.event.inputs.version_increment }}
 
       - name: Install dependencies
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
-          ls -la ../../node_modules/npm/bin/npm-cli.js
-          ../../node_modules/npm/bin/npm-cli.js ci
+          ls -la /tmp/npm-cli/node_modules/npm/bin/npm-cli.js
+          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js ci
 
       - name: Publish
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
           # npm publish
           # npm publish --loglevel=silly
-          ls -la ../../node_modules/npm/bin/npm-cli.js
-          ../../node_modules/npm/bin/npm-cli.js publish --loglevel=silly
+          ls -la /tmp/npm-cli/node_modules/npm/bin/npm-cli.js
+          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js publish --loglevel=silly
