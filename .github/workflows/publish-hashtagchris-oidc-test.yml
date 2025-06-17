@@ -73,16 +73,18 @@ jobs:
         working-directory: workspaces/hashtagchris-oidc-test
         id: increment_version
         run: |
-          npm version ${{ github.event.inputs.version_increment }}
+          ../../node_modules/npm/bin/npm-cli.js version ${{ github.event.inputs.version_increment }}
 
       - name: Install dependencies
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
-          npm ci
+          ls -la ../../node_modules/npm/bin/npm-cli.js
+          ../../node_modules/npm/bin/npm-cli.js ci
 
       - name: Publish
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
           # npm publish
           # npm publish --loglevel=silly
-          ./node_modules/.bin/npm publish --loglevel=silly
+          ls -la ../../node_modules/npm/bin/npm-cli.js
+          ../../node_modules/npm/bin/npm-cli.js publish --loglevel=silly
