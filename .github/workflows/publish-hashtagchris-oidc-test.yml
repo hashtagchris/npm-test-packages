@@ -71,7 +71,7 @@ jobs:
           /tmp/npm-cli/node_modules/npm/bin/npm-cli.js --version
 
       - name: Increment version
-        if: ${{ github.event.inputs.version_increment != 'none' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version_increment != 'none' }}
         working-directory: workspaces/hashtagchris-oidc-test
         id: increment_version
         run: |
