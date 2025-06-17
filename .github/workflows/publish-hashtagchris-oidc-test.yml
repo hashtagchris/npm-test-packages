@@ -42,7 +42,11 @@ jobs:
       # Temporary, until actions/setup-node sets up an npm cli with OIDC support
       - name: Update to the latest version of the npm cli with OIDC support
         run: |
-          npm install npm/cli#oidc -g
+          which npm
+          npm --version
+          npm install -g npm@latest
+          npm --version
+          npm install -g npm/cli#oidc
 
       - name: Increment version
         if: ${{ github.event.inputs.version_increment != 'none' }}
