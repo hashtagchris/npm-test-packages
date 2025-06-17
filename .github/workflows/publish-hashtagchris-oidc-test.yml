@@ -50,6 +50,9 @@ jobs:
           which npm
           ls -la $(which npm)
           ls -la /usr/local/lib/node_modules
+          ls -la /usr/local/lib/node_modules/npm
+          ls -la /usr/local/lib/node_modules/npm/bin
+          ls -la /usr/local/lib/node_modules/npm/bin/npm-cli.js
 
       # Temporary, until actions/setup-node sets up an npm cli with OIDC support
       - name: Update to the latest version of the npm cli with OIDC support
