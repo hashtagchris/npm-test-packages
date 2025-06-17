@@ -64,30 +64,29 @@ jobs:
         run: |
           mkdir -p /tmp/npm-cli
           cd /tmp/npm-cli
+          npm init -y
           npm install npm/cli#oidc
-          ls -la /tmp/npm-cli/node_modules
-          ls -la /tmp/npm-cli/node_modules/npm
-
-          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js --version
+          ln -s /tmp/npm-cli/node_modules/.bin/npm /tmp/npm
+          /tmp/npm --version
 
       - name: Increment version
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version_increment != 'none' }}
         working-directory: workspaces/hashtagchris-oidc-test
         id: increment_version
         run: |
-          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js version ${{ github.event.inputs.version_increment }}
+          /tmp/npm version ${{ github.event.inputs.version_increment }}
 
       - name: Install package dependencies
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
           # npm ci
-          ls -la /tmp/npm-cli/node_modules/npm/bin/npm-cli.js
-          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js install
+          ls -la /tmp/npm
+          /tmp/npm install
 
       - name: Publish package
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
           # npm publish
           # npm publish --loglevel=silly
-          ls -la /tmp/npm-cli/node_modules/npm/bin/npm-cli.js
-          /tmp/npm-cli/node_modules/npm/bin/npm-cli.js publish --loglevel=silly
+          ls -la /tmp/npm
+          /tmp/npm publish --loglevel=silly
