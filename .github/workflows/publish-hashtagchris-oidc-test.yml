@@ -44,9 +44,9 @@ jobs:
         run: |
           which npm
           npm --version
-          npm install -g npm@latest
+          sudo npm install -g npm@latest
           npm --version
-          npm install -g npm/cli#oidc
+          sudo npm install -g npm/cli#oidc
 
       - name: Increment version
         if: ${{ github.event.inputs.version_increment != 'none' }}
