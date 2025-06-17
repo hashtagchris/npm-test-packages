@@ -56,8 +56,18 @@ jobs:
 
       # Temporary, until actions/setup-node sets up an npm cli with OIDC support
       - name: Update to the latest version of the npm cli with OIDC support
+        continue-on-error: true
         run: |
           sudo npm install -g npm/cli#oidc
+
+      - name: Do a non-global install of the npm cli with OIDC support
+        working-directory: workspaces/hashtagchris-oidc-test
+        run: |
+          npm install npm/cli#oidc
+          ls -la node_modules
+          ls -la node_modules/npm
+
+          ./node_modules/npm/bin/npm-cli.js --version
 
       - name: Increment version
         if: ${{ github.event.inputs.version_increment != 'none' }}
@@ -75,4 +85,5 @@ jobs:
         working-directory: workspaces/hashtagchris-oidc-test
         run: |
           # npm publish
-          npm publish --loglevel=silly
+          # npm publish --loglevel=silly
+          ./node_modules/.bin/npm publish --loglevel=silly
