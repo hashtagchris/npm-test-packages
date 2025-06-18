@@ -50,26 +50,22 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            // check workflow dispatch inputs
-            if (context.inputs?.loglevel) {
-              console.log(`Setting loglevel to ${context.inputs.loglevel}`)
-              core.setEnv('LOGLEVEL', context.inputs.loglevel)
-              return
-            }
+            let loglevel = 'notice' // default loglevel
 
-            // check the commit message
-            if (context.head_commit?.message) {
-              const match = context.head_commit.message.match(/^(npm-)?loglevel:\s*(\w+)/m)
+            if (context.payload.inputs?.loglevel) {
+              console.log('Found loglevel in workflow dispatch inputs')
+              loglevel = context.payload.inputs.loglevel
+            }
+            else if (context.payload.head_commit?.message) {
+              const match = context.payload.head_commit.message.match(/^(npm-)?loglevel:\s*(\w+)/m)
               if (match && match[1]) {
-                console.log(`Setting loglevel to ${match[1]}`)
-                core.setEnv('LOGLEVEL', match[1])
-                return
+                console.log('Found loglevel in head commit message:', match[1])
+                loglevel = match[1]
               }
             }
 
-            // default to 'notice'
-            console.log('No loglevel specified, defaulting to "notice"')
-            core.setEnv('LOGLEVEL', 'notice')
+            console.log(`Setting npm loglevel to: ${loglevel}`)
+            core.exportVariable('LOGLEVEL', loglevel)
 
       # Adds NODE_AUTH_TOKEN env var reference to .npmrc file
       - uses: actions/setup-node@v4
