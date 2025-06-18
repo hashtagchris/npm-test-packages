@@ -40,6 +40,10 @@ jobs:
       id-token: write
 
     steps:
+      - name: Inspect triggering GitHub event
+        run: |
+          cat $GITHUB_EVENT_PATH
+
       - uses: actions/checkout@v4
 
       - name: Set log level
