@@ -64,7 +64,7 @@ jobs:
               }
             }
 
-            console.log(`Setting npm loglevel to: ${loglevel}`)
+            console.log(`Setting npm loglevel to '${loglevel}'`)
             core.exportVariable('LOGLEVEL', loglevel)
 
       # Adds NODE_AUTH_TOKEN env var reference to .npmrc file
