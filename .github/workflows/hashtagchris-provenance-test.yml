@@ -59,13 +59,22 @@ jobs:
         run: |
           sudo npm install -g npm@latest
 
+      - name: Do a non-global install of the npm cli with OIDC support
+        run: |
+          mkdir -p /tmp/npm-cli
+          cd /tmp/npm-cli
+          npm init -y
+          npm install npm/cli#oidc
+          ln -s /tmp/npm-cli/node_modules/.bin/npm /tmp/npm
+          /tmp/npm --version
+
       - name: Check npm version
         run: |
-          npm --version
+          /tmp/npm --version
 
       - name: Publish package
         working-directory: workspaces/hashtagchris-provenance-test
         run: |
-          npm publish --provenance --access=public --loglevel=$LOGLEVEL
+          /tmp/npm publish --provenance --access=public --loglevel=$LOGLEVEL
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
