@@ -1,0 +1,85 @@
+name: Publish hashtagchris-provenance-test package to GitHub Packages
+on:
+  workflow_dispatch:
+    inputs:
+      loglevel:
+        description: 'Log level for npm publish (default: notice)'
+        required: false
+        default: 'notice'
+        type: choice
+        options:
+          - notice
+          - silent
+          - error
+          - warn
+          - http
+          - info
+          - verbose
+          - silly
+
+  pull_request:
+    paths:
+      - .github/workflows/hashtagchris-provenance-test-ghpr.yml
+      - workspaces/hashtagchris-provenance-test/**
+  push:
+    paths:
+      - .github/workflows/hashtagchris-provenance-test-ghpr.yml
+      - workspaces/hashtagchris-provenance-test/**
+    branches:
+      - main
+
+jobs:
+  publish:
+    environment:
+      name: hashtagchris-provenance-test
+      url: https://github.com/users/hashtagchris/packages?repo_name=npm-test-packages
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Inspect triggering GitHub event
+        run: |
+          cat $GITHUB_EVENT_PATH
+
+      - uses: actions/checkout@v4
+
+      - name: Determine npm loglevel
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let loglevel = 'notice' // default loglevel
+
+            if (context.payload.inputs?.loglevel) {
+              console.log('Found loglevel in workflow dispatch inputs')
+              loglevel = context.payload.inputs.loglevel
+            }
+            else if (context.payload.head_commit?.message) {
+              const match = context.payload.head_commit.message.match(/^(npm-)?loglevel:\s*(\w+)/m)
+              if (match && match[1]) {
+                console.log('Found loglevel in head commit message:', match[2])
+                loglevel = match[2]
+              }
+            }
+
+            console.log(`Setting npm loglevel to '${loglevel}'`)
+            core.exportVariable('LOGLEVEL', loglevel)
+
+      # Adds NODE_AUTH_TOKEN env var reference to .npmrc file
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://npm.pkg.github.com
+
+      # Regression test our to-be-released npm cli
+      # Make sure the non-OIDC publish experience is reasonable
+      - name: Install npm from npm/oidc branch
+        run: curl -fsSL https://raw.githubusercontent.com/npm/cli/refs/heads/oidc-install/install.sh | bash
+
+      - name: Publish package
+        working-directory: workspaces/hashtagchris-provenance-test
+        run: |
+          npm publish --registry=https://npm.pkg.github.com --provenance --access=public --loglevel=$LOGLEVEL
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
