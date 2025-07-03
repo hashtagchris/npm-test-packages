@@ -72,6 +72,6 @@ jobs:
       - name: Publish package
         working-directory: workspaces/ghpr-pkg
         run: |
-          npm publish --registry=https://npm.pkg.github.com --access=public --loglevel=$LOGLEVEL
+          npm publish --registry=https://npm.pkg.github.com --provenance --access=public --loglevel=$LOGLEVEL
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
