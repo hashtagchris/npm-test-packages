@@ -32,12 +32,13 @@ jobs:
   publish:
     environment:
       name: hashtagchris-provenance-test
-      url: https://github.com/users/hashtagchris/packages?repo_name=npm-test-packages
+      url: https://github.com/hashtagchris/npm-test-packages/pkgs/npm/hashtagchris-provenance-test
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
       id-token: write
+      packages: write
 
     steps:
       - name: Inspect triggering GitHub event
