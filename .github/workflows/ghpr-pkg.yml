@@ -32,7 +32,7 @@ jobs:
   publish:
     environment:
       name: publish
-      url: https://github.com/users/hashtagchris/packages?repo_name=npm-test-packages
+      url: https://github.com/hashtagchris/npm-test-packages/pkgs/npm/ghpr-pkg
     runs-on: ubuntu-latest
 
     permissions:
