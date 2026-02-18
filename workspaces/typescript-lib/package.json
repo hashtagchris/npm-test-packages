@@ -1,0 +1,13 @@
+{
+  "name": "@hashtagchris/typescript-lib",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "node test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
